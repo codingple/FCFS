@@ -59,7 +59,7 @@ void pop_queue( QueueType* queue );
 
 //main 함수
 int main (void){
-	
+
 	//변수 선언 등 초기화
 	FILE *file = fopen("process.txt", "rt");
 	char str[line];
@@ -110,14 +110,14 @@ int main (void){
 		fscanf( file, "%s", str);
 		execution_time = strtoul(str, NULL, 10);
 
-		
+
 		//Node를 생성하여 List에 추가
 		tmp_process = new_process( process_id, execution_time );
 		tmp_PCB = new_PCB(arrival_time);
 		tmp_node = new_node( tmp_process, tmp_PCB );
 
 		add_list( &List, tmp_node );
-		
+
 	}
 
 	fclose(file);
@@ -133,13 +133,17 @@ int main (void){
 	while ( 1 ){
 
 		//arrival time을 t와 비교하여 queue에 push
-		if ( pro_len + 1 != ready_id ){
-			tmp_node = search_list(&List, ready_id);
-			if ( tmp_node->pcb->arrival_time == t ){
-				push_queue(&Queue, tmp_node);
-				printf("[%u] PID(%d): Entered to queue\n", t, ready_id);
-				ready_id++;
-			}
+		while ( 1 ){
+            if ( pro_len + 1 != ready_id ){
+                tmp_node = search_list(&List, ready_id);
+                if ( tmp_node->pcb->arrival_time == t ){
+                    push_queue(&Queue, tmp_node);
+                    printf("[%u] PID(%d): Entered to queue\n", t, ready_id);
+                    ready_id++;
+                    continue;
+                }
+            }
+            break;
 		}
 
 		//CPU를 점유중
@@ -152,7 +156,7 @@ int main (void){
 			if( exe_node->pcb->progress == exe_node->pro->exe_time ){
 				Node* tmp_node2 = NULL;
 				exe_node->pcb->finish_time = t;
-				
+
 				//List update
 				tmp_node = search_list(&List, exe_id);
 				tmp_node2 = tmp_node->next;
@@ -210,7 +214,7 @@ int main (void){
 
 	//Log of Process Scheduling
 	printf("\nLog of Process Scheduling\n");
-	
+
 	tmp_node = List.head;
 
 	//Turnaround Time, Waiting Time
@@ -242,7 +246,7 @@ int main (void){
 
 	printf("\nAverage Turnaround Time: %u\n", turnaround/pro_len);
 	printf("Average Waiting Time: %u\n", waiting/pro_len);
-	
+
 	//CPU Utilization
 	util = (t - cpu_idle) * 100;
 	util2 = util / t;
@@ -250,7 +254,7 @@ int main (void){
 
 	//Average Queue Length
 	printf("Average Queue Length: %f\n", ql/t);
-	
+
 
 	return 0;
 }
@@ -377,7 +381,7 @@ void push_queue( QueueType* queue, Node* node ){
 		new_node->pro = NULL;
 		new_node->pcb = NULL;
 		new_node->next = NULL;
-		
+
 		*new_node = *node;
 		new_node->next = NULL;
 
