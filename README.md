@@ -10,6 +10,6 @@ average turnaround time, average waiting time, CPU utilization, and average queu
   
 #### Input  
 "process.txt" includes the total number of processes at the first line, and 
-the lines of (process id, arrival time, execution time).
+the lines of (process id, arrival time, execution time).  
 &nbsp;  
 ![Example](./fcfs_pic.png)
