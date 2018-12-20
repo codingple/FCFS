@@ -1,5 +1,5 @@
 # FCFS
-An implementation of First-Come-First-Served(FCFS) scheduling in C  
+### An implementation of First-Come-First-Served(FCFS) scheduling in C  
   
 #### Description  
 This implementation is FCFS scheduling simulation. This source reads a file containing process #,
